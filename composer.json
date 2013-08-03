@@ -19,7 +19,7 @@
         "symfony/framework-bundle": "2.*"
     },
     "autoload": {
-        "psr-0": { "Godfather": "lib/"  }
+        "psr-0": { "Godfather": ["sf2-bundle", 'lib']  }
     },
     "extra": {
         "branch-alias": {

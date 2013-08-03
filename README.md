@@ -1,6 +1,8 @@
 GodFather of the Strategy Pattern
 ==========================================
 
+Be careful this is not for production, this project was born yesterday (more or less).
+
 ## Strategy Pattern
 
 http://en.wikipedia.org/wiki/Strategy_pattern
@@ -74,7 +76,6 @@ class Cart
 You want to call the correct manager, starting from the entity:
 
 ```php
-
 $godfather = new Godfather();
 // start adding billion of strategy
 // the context is created if is not found
@@ -135,9 +136,8 @@ $manager->...
    - First fork or clone the repository
 
    ```
-   git clone git://github.com/liuggio/godfather.git
+   composer create-project liuggio/godfather --dev -s dev
    cd godfather
-   composer.phar install
    bin/phpunit
    ```
 
@@ -145,6 +145,6 @@ $manager->...
 
 please help me.
 
-1. create sf2Bundle
-2. improve factory
-3. gather feedback
+1. improve Context Factory
+2. gather feedback
+3. annotation
