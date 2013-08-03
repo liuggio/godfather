@@ -3,6 +3,7 @@
 namespace Godfather\Test\Fixture\Entity;
 
 
-class Ticket implements Product{
+class Ticket implements Product
+{
 
 }

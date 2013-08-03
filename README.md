@@ -14,6 +14,7 @@ Strategy lets the algorithm vary independently from clients that use it.
 
 - If you have a lot of classes that differs only by their behaviour...
 - If you have multiple conditional statements in order to define different behaviours...
+- Given an Object you want to know its manager...
 
 ## Installation
 
@@ -24,7 +25,7 @@ Strategy lets the algorithm vary independently from clients that use it.
 Imagine that you want to add to a cart item a product and some options.
 The problem arises when the products have different policies/behaviours.
 
-You could find the code of this use case in:                                                                                                                                                                                                                           tests/GodFather/Test/FunctionalTest.php
+You could find the code of this use case in: [tests/Godfather/Test/FunctionalTest.php](https://github.com/liuggio/godfather/blob/master/tests/Godfather/Test/FunctionalTest.php)                                                                                                                                                                                                                      tests/GodFather/Test/FunctionalTest.php
 
 before the cure:
 
@@ -58,8 +59,9 @@ $godfather->addStrategy('cart', 'Godfather\Test\Fixture\Entity\Socket', new Sock
 
 // Step2. usage
 class Cart
-
-  function add(ProductInterface $product, OptionsInterface $options)
+  public function __construct($godfather)
+  //...
+  public function add(ProductInterface $product, OptionsInterface $options)
   {
     // get the strategy for cart with the context $product
     $strategy = $this->godfather->getStrategy('cart', $product)
@@ -67,6 +69,20 @@ class Cart
  }
 ```
 
+## Another use case, the manager
+
+You want to call the correct manager, starting from the entity:
+
+```php
+
+$godfather = new Godfather();
+// start adding billion of strategy
+// the context is created if is not found
+$godfather->addStrategy('manager', 'Product/ShoeProduct', new ShoeProductManager());
+$godfather->addStrategy('manager', 'Product/PillowProduct', new PillowProductManager());
+
+$manager = $this->godfather->getStrategy('manager', $product);
+```
 
 ## Contribution
 

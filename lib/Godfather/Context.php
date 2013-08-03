@@ -2,14 +2,15 @@
 
 namespace Godfather;
 
-class Context {
+class Context
+{
 
     private $name;
     private $fallback;
     private $interface;
     private $strategies = array();
 
-    public function __construct($name, $interface, $fallback = null)
+    public function __construct($name, $interface = null, $fallback = null)
     {
         $this->name = $name;
         $this->interface = $interface;
@@ -37,7 +38,7 @@ class Context {
         $key = $this->convertToKey($key);
 
         if (!isset($this->strategies[$key]) && (null !== $this->fallback)) {
-           return $this->fallback;
+            return $this->fallback;
         }
 
         return $this->strategies[$key];
@@ -98,9 +99,13 @@ class Context {
      *
      * @return Boolean
      */
-    private function isRespectingInterface($object) {
+    private function isRespectingInterface($object)
+    {
+        if (null !== $this->interface) {
+            return ($object instanceof $this->interface);
+        }
 
-        return ($object instanceof $this->interface);
+        return true;
     }
 
     /**
@@ -112,17 +117,17 @@ class Context {
      */
     private function convertToKey($mixed)
     {
-        if(is_object($mixed)) {
+        if (is_object($mixed)) {
             return get_class($mixed);
         }
 
-       try {
-           $mixed = (string) $mixed;
-       } catch (\Exception $e) {
-           $mixed = gettype($mixed);
-       }
+        try {
+            $mixed = (string)$mixed;
+        } catch (\Exception $e) {
+            $mixed = gettype($mixed);
+        }
 
-       return $mixed;
+        return $mixed;
     }
 
 }

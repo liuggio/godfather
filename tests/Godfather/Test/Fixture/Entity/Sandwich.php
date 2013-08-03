@@ -3,6 +3,7 @@
 namespace Godfather\Test\Fixture\Entity;
 
 
-class Sandwich implements Product{
+class Sandwich implements Product
+{
 
 }

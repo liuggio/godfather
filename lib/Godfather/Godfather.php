@@ -7,7 +7,8 @@ Class Godfather
     private $contextClass;
     private $contexts = array();
 
-    public function __construct($contextClass = 'Godfather\Context') {
+    public function __construct($contextClass = 'Godfather\Context')
+    {
         $this->contextClass = $contextClass;
     }
 
@@ -33,7 +34,7 @@ Class Godfather
      *
      * @return Context
      */
-    public function createContext($contextName, $strategyInterface, $fallBackStrategy)
+    public function createContext($contextName, $strategyInterface = null, $fallBackStrategy = null)
     {
         $class = $this->contextClass;
         return new $class($contextName, $strategyInterface, $fallBackStrategy);
@@ -43,17 +44,16 @@ Class Godfather
      * Add a strategy to a context.
      *
      * @param string $contextName
-     * @param mixed  $contextKey
-     * @param mixed  $strategy
+     * @param mixed $contextKey
+     * @param mixed $strategy
      *
      * @return $this
      * @throws \InvalidArgumentException
      */
     public function addStrategy($contextName, $contextKey, $strategy)
     {
-        if (!isset($this->contexts[$contextName]))
-        {
-            throw new \InvalidArgumentException();
+        if (!isset($this->contexts[$contextName])) {
+            $this->contexts[$contextName] = $this->createContext($contextName);
         }
         $this->contexts[$contextName]->addStrategy($contextKey, $strategy);
 
@@ -64,7 +64,7 @@ Class Godfather
      * Get the strategy for the key ($contextName, $context).
      *
      * @param string $contextName
-     * @param mixed  $context
+     * @param mixed $context
      *
      * @return mixed
      */
