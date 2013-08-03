@@ -24,13 +24,13 @@ class CompilerPass implements CompilerPassInterface
         foreach ($taggedServices as $id => $tagAttributes) {
             foreach ($tagAttributes as $attributes) {
 
-                if (empty($attributes['class']) || empty($attributes['name']) ) {
+                if (empty($attributes['context_name']) || empty($attributes['context_key']) ) {
                     throw new \InvalidArgumentException(sprintf('The class or the name is not defined in the tag for the service "%s"', $id));
                 }
 
                 $definition->addMethodCall(
                     'addStrategy',
-                    array($attributes["name"], $attributes["class"], new Reference($id))
+                    array($attributes["context_name"], $attributes["context_key"], new Reference($id))
                 );
             }
         }
