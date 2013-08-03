@@ -83,6 +83,47 @@ $godfather->addStrategy('manager', 'Product/PillowProduct', new PillowProductMan
 
 $manager = $this->godfather->getStrategy('manager', $product);
 ```
+## Using the Symfony2 Bundle
+
+add a context only if you need to specify the fallback or the interface, otherwise the context specification is not needed.
+
+```yml
+// config.yml
+
+godfather:
+    contexts:
+        manager:
+            fallback: %manager.standard.class%
+            interface: %manager.interface.class%
+        cart: ~
+```
+
+Set in your Application the strategy:
+
+```yml
+services:
+    manager.shoe:
+        class: ShoeProductManager
+        tags:
+            -  { name: godfather.strategy, context_name: 'manager', context_key: %product.show.class% }
+
+    manager.pillow:
+        class: PillowProductManager
+        tags:
+            -  { name: godfather.strategy, context_name: 'manager', context_key: %product.pillow.class% }
+
+    payment.pillow:
+        class: PillowPaymentManager
+        tags:
+            -  { name: godfather.strategy, context_name: 'payment', context_key: %payment.pillow.class% }
+```
+
+then use it in the controller:
+```php
+$product = new /Product/ShoeProduct();
+$manager = $container->get('godfather')->getStrategy('manager', $product);
+$manager->...
+```
 
 ## Contribution
 

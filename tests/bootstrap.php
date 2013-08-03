@@ -11,3 +11,4 @@
 
 $loader = require __DIR__.'/../vendor/autoload.php';
 $loader->add('Godfather\Test', __DIR__);
+$loader->add('Godfather', __DIR__ . '/../sf2-bundle');

@@ -7,7 +7,6 @@ use Godfather\Test\Fixture\StandardCartItem;
 use Godfather\Test\Fixture\Entity\Ticket;
 use Godfather\Test\Fixture\TicketCartItem;
 
-
 Class ContextTest extends \PHPUnit_Framework_TestCase
 {
 

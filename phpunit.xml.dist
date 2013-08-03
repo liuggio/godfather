@@ -15,6 +15,7 @@
     <testsuites>
         <testsuite name="Godfather Test Suite">
             <directory>./tests/Godfather/</directory>
+            <directory>./sf2-bundle/Godfather/</directory>
         </testsuite>
     </testsuites>
 
