@@ -1,13 +1,23 @@
 GodFather of the Strategy Pattern
 ==========================================
 
+[![travis-ci](https://secure.travis-ci.org/liuggio/godfather.png)](http://travis-ci.org/liuggio/godfather) [![Latest Stable Version](https://poser.pugx.org/liuggio/godfather/v/stable.png)](https://packagist.org/packages/liuggio/godfather) [![Total Downloads](https://poser.pugx.org/liuggio/godfather/downloads.png)](https://packagist.org/packages/liuggio/godfather)
+
+1. [The Strategy pattern](#the-strategy-pattern) 
+2. [Installation](#installation) 
+3. [Contribution](#contribution) 
+4. [Using the symfony2 bundle](#using-the-symfony2-bundle)
+5. [Todo](#todo) 
+ 
+------------------------------------------------------
+
 Be careful this is not stable and is not production-ready.
 
-## Strategy Pattern
+## The Strategy Pattern
 
 http://en.wikipedia.org/wiki/Strategy_pattern
 
-## Intent
+### Intent
 
 Define a family of algorithms, encapsulate each one, and make them interchangeable.
 Strategy lets the algorithm vary independently from clients that use it.
