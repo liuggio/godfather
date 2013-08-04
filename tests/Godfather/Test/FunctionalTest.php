@@ -42,6 +42,4 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
             'with the Fallback' => array('cart', new Sandwich(), 'yesterday', 'standard.yesterday'),
         );
     }
-
-
 }

@@ -16,20 +16,20 @@ Strategy lets the algorithm vary independently from clients that use it.
 
 - If you have a lot of classes that differs only by their behaviour...
 - If you have multiple conditional statements in order to define different behaviours...
-- Given an Object you want to know its manager...
+- Given an object you want to know its manager...
 
 ## Installation
 
-`composer require liuggio/godfather dev-master``
+`composer require liuggio/godfather dev-master`
 
 ## A simple use case
 
-Imagine that you want to add to a cart item a product and some options.
-The problem arises when the products have different policies/behaviours.
+Imagine that you want to add a product into a cartitem with some options.
+The problem is that you have multiple products, and each product has a different policy/behaviour.
 
 You could find the code of this use case in: [tests/Godfather/Test/FunctionalTest.php](https://github.com/liuggio/godfather/blob/master/tests/Godfather/Test/FunctionalTest.php)                                                                                                                                                                                                                      tests/GodFather/Test/FunctionalTest.php
 
-before the cure:
+**before the cure:**
 
 ```php
 // Pseudo Code
@@ -46,16 +46,15 @@ class Cart
  }
 ```
 
-**With your GodFather**
+**With GodFather:**
 
 ```php
 // Step1. init
 $godfather = new Godfather();
-//                   |-context name---Interface to respect---------------Fallback Strategy-------|
+//                   |-context name---Interface to respect (optional)----Fallback Strategy-(optional)-|
 $godfather->addContext('cart', 'Godfather\Test\Fixture\CartItemInterface', new StandardCartItem());
-
-// start adding billion of strategy
-//                   |-context name---------------context--------------------Strategy-------|
+// start adding billion of strategies
+//                   |-context name---------------context key----------------Strategy-------|
 $godfather->addStrategy('cart', 'Godfather\Test\Fixture\Entity\Ticket', new TicketCartItem());
 $godfather->addStrategy('cart', 'Godfather\Test\Fixture\Entity\Socket', new SocketCartItem());
 
@@ -66,7 +65,9 @@ class Cart
   public function add(ProductInterface $product, OptionsInterface $options)
   {
     // get the strategy for cart with the context $product
-    $strategy = $this->godfather->getStrategy('cart', $product)
+    $strategy = $this->godfather->getStrategy('cart', $product);
+    // or $strategy = $this->godfather->getCart($product);
+
     return $strategy->addToCart($product, $options);
  }
 ```
@@ -74,23 +75,30 @@ class Cart
 ## Another use case, the manager
 
 You want to call the correct manager, starting from the entity:
-
 ```php
 $godfather = new Godfather();
-// start adding billion of strategy
-// the context is created if is not found
-$godfather->addStrategy('manager', 'Product/ShoeProduct', new ShoeProductManager());
-$godfather->addStrategy('manager', 'Product/PillowProduct', new PillowProductManager());
+// the context is created if is not found.
+$godfather->addStrategy('manager', 'Product\ShoeProduct', new ShoeProductManager());
+$godfather->addStrategy('manager', 'Product\PillowProduct', new PillowProductManager());
 
-$manager = $this->godfather->getStrategy('manager', $product);
+$manager = $this->godfather->getManager($product);
+// or $manager = $this->godfather->getStrategy('manager', $product);
 ```
 ## Using the Symfony2 Bundle
 
-add a context only if you need to specify the fallback or the interface, otherwise the context specification is not needed.
-
+Add the bundle in the `app/AppKernel.php`
+```php
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            ...
+            new Godfather\GodfatherBundle\GodfatherBundle(),
+```
+Modify the `app/config/config.yml` only if you need:
 ```yml
-// config.yml
-
+// add the below configuration only if you need to specify the fallback or the interface.
 godfather:
     contexts:
         manager:
@@ -99,8 +107,7 @@ godfather:
         cart: ~
 ```
 
-Set in your Application the strategy:
-
+Set your strategies:
 ```yml
 services:
     manager.shoe:
@@ -122,24 +129,23 @@ services:
 then use it in the controller:
 ```php
 $product = new /Product/ShoeProduct();
-$manager = $container->get('godfather')->getStrategy('manager', $product);
+$manager = $container->get('godfather')->getManager($product);
+// or $manager = $container->get('godfather')->getStrategy('manager', $product);
 $manager->...
 ```
 
 ## Contribution
 
-   Active contribution and patches are very welcome.
-   To keep things in shape we have quite a bunch of unit tests. If you're submitting pull requests please
-   make sure that they are still passing and if you add functionality please
-   take a look at the coverage as well it should be pretty high :)
+Active contribution and patches are very welcome.
+To keep things in shape we have quite a bunch of unit tests. If you're submitting pull requests please
+make sure that they are still passing and if you add functionality please
+take a look at the coverage as well it should be pretty high :)
 
-   - First fork or clone the repository
-
-   ```
-   composer create-project liuggio/godfather --dev -s dev
-   cd godfather
-   bin/phpunit
-   ```
+```bash
+composer create-project liuggio/godfather --dev -s dev
+cd godfather
+bin/phpunit
+```
 
 ## TODO
 

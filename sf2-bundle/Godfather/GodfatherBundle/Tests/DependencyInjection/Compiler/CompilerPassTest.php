@@ -47,7 +47,7 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('godfather.strategy'))
-            ->will($this->returnValue(array('id' => array('tag1' => array('class' => 'test_class', 'name' => 'test_name')))));
+            ->will($this->returnValue(array('id' => array('tag1' => array( 'context_key'=>'key', 'context_name'=>'name')))));
         $containerBuilderMock->expects($this->once())
             ->method('getDefinition')
             ->with($this->equalTo('godfather'))

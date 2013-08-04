@@ -9,7 +9,6 @@ use Godfather\Test\Fixture\TicketCartItem;
 
 Class ContextTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testExceptionAddContextWithFallBack()
     {
         $context = new Context('cart', 'Godfather\Test\Fixture\CartItemInterface', new StandardCartItem());
@@ -43,6 +42,4 @@ Class ContextTest extends \PHPUnit_Framework_TestCase
         $ticketStrategy = new \StdClass();
         $context->addStrategy($entity, $ticketStrategy);
     }
-
 }
-
