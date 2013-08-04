@@ -1,11 +1,9 @@
 language: php
 before_script:
-  - wget -nc http://getcomposer.org/composer.phar
-  - composer.phar self-update
-  - composer.phar install --prefer-source
+  - composer install --prefer-source
 php:
   - 5.3.3
   - 5.3
   - 5.4
   - 5.5
-script: bin/phpunit -c .
+script: bin/phpunit
