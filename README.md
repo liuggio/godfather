@@ -1,7 +1,7 @@
 GodFather of the Strategy Pattern
 ==========================================
 
-Be careful this is not for production, this project was born yesterday (more or less).
+Be careful this is not stable and is not production-ready.
 
 ## Strategy Pattern
 
