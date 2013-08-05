@@ -1,18 +1,9 @@
-GodFather 
-==========================================
-![godfather](http://images.wikia.com/cybernations/images/archive/c/c9/20071008043557!Godfather_hand_black.png) 
+# GodFather
 
- 
+| ![godfather](http://images.wikia.com/cybernations/images/archive/c/c9/20071008043557!Godfather_hand_black.png) | A small library for the strategy pattern in PHP, if you use Symfony2 you could easily integrate Godfather with the bundle.   |
+| ------- |-----|
+| 1. [The Strategy pattern](#the-strategy-pattern), 2. [Installation](#installation), 3. [Contribution](#contribution), 4. [Using the symfony2 bundle](#using-the-symfony2-bundle), 5. [Todo](#todo) |[![travis-ci](https://secure.travis-ci.org/liuggio/godfather.png)](http://travis-ci.org/liuggio/godfather) [![Latest Stable Version](https://poser.pugx.org/liuggio/godfather/v/stable.png)](https://packagist.org/packages/liuggio/godfather) [![Total Downloads](https://poser.pugx.org/liuggio/godfather/downloads.png)](https://packagist.org/packages/liuggio/godfather) |
 
-1. [The Strategy pattern](#the-strategy-pattern)
-2. [Installation](#installation)
-3. [Contribution](#contribution)
-4. [Using the symfony2 bundle](#using-the-symfony2-bundle)
-5. [Todo](#todo) 
-
-[![travis-ci](https://secure.travis-ci.org/liuggio/godfather.png)](http://travis-ci.org/liuggio/godfather) [![Latest Stable Version](https://poser.pugx.org/liuggio/godfather/v/stable.png)](https://packagist.org/packages/liuggio/godfather) [![Total Downloads](https://poser.pugx.org/liuggio/godfather/downloads.png)](https://packagist.org/packages/liuggio/godfather)
-
- 
 ------------------------------------------------------
 
 Be careful this is not stable and is not production-ready.
