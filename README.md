@@ -1,13 +1,17 @@
-GodFather of the Strategy Pattern
+GodFather 
 ==========================================
+![godfather](http://images.wikia.com/cybernations/images/archive/c/c9/20071008043557!Godfather_hand_black.png) 
+
+ 
+
+1. [The Strategy pattern](#the-strategy-pattern)
+2. [Installation](#installation)
+3. [Contribution](#contribution)
+4. [Using the symfony2 bundle](#using-the-symfony2-bundle)
+5. [Todo](#todo) 
 
 [![travis-ci](https://secure.travis-ci.org/liuggio/godfather.png)](http://travis-ci.org/liuggio/godfather) [![Latest Stable Version](https://poser.pugx.org/liuggio/godfather/v/stable.png)](https://packagist.org/packages/liuggio/godfather) [![Total Downloads](https://poser.pugx.org/liuggio/godfather/downloads.png)](https://packagist.org/packages/liuggio/godfather)
 
-1. [The Strategy pattern](#the-strategy-pattern) 
-2. [Installation](#installation) 
-3. [Contribution](#contribution) 
-4. [Using the symfony2 bundle](#using-the-symfony2-bundle)
-5. [Todo](#todo) 
  
 ------------------------------------------------------
 
@@ -138,7 +142,7 @@ services:
 
 then use it in the controller:
 ```php
-$product = new /Product/ShoeProduct();
+$product = new \Product\ShoeProduct();
 $manager = $container->get('godfather')->getManager($product);
 // or $manager = $container->get('godfather')->getStrategy('manager', $product);
 $manager->...
