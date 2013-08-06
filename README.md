@@ -1,3 +1,7 @@
+#MOVED, now this library is mantained by  [pugx/godfather](https://github.com/pugx/godfathe)
+
+---------------------------------------------------
+
 # GodFather
 
 | ![godfather](http://images.wikia.com/cybernations/images/archive/c/c9/20071008043557!Godfather_hand_black.png) | A small library for the strategy pattern in PHP, if you use Symfony2 you could easily integrate Godfather with the bundle.   |
