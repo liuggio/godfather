@@ -12,13 +12,26 @@ Class Godfather
         $this->contextClass = $contextClass;
     }
 
-    public function addContext($contextName, $strategyInterface, $fallBackStrategy = null)
+    /**
+     * Create a new context, strategy interface and fallback are optional.
+     *
+     * @param string $contextName
+     * @param string $strategyInterface
+     * @param mixed  $fallBackStrategy
+     *
+     * @return Godfather $this
+     */
+    public function addContext($contextName, $strategyInterface = null, $fallBackStrategy = null)
     {
         $this->contexts[$contextName] = $this->createContext($contextName, $strategyInterface, $fallBackStrategy);
+
+        return $this;
     }
 
     /**
-     * @return array
+     * Get the contexts array
+     *
+     * @return ContextInterface[]
      */
     public function getContexts()
     {

@@ -2,37 +2,45 @@
 
 namespace Godfather;
 
-class Context
+class Context implements ContextInterface
 {
-
     private $name;
     private $fallback;
-    private $interface;
+    private $strategyInterface;
     private $strategies = array();
 
-    public function __construct($name, $interface = null, $fallback = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($name, $strategyInterface = null, $fallback = null)
     {
         $this->name = $name;
-        $this->interface = $interface;
+        $this->strategyInterface = $strategyInterface;
 
-        if (null !== $fallback && !$this->isRespectingInterface($fallback)) {
+        if (null !== $fallback && !$this->isRespectingStrategyInterface($fallback)) {
             throw new \InvalidArgumentException();
         }
 
         $this->fallback = $fallback;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function addStrategy($key, $strategy)
     {
         $key = $this->convertToKey($key);
 
-        if (!$this->isRespectingInterface($strategy)) {
+        if (!$this->isRespectingstrategyInterface($strategy)) {
             throw new \InvalidArgumentException();
         }
 
         $this->strategies[$key] = $strategy;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getStrategy($key)
     {
         $key = $this->convertToKey($key);
@@ -45,64 +53,16 @@ class Context
     }
 
     /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $fallback
-     */
-    public function setFallback($fallback)
-    {
-        $this->fallback = $fallback;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFallback()
-    {
-        return $this->fallback;
-    }
-
-    /**
-     * @param mixed $interface
-     */
-    public function setInterface($interface)
-    {
-        $this->interface = $interface;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getInterface()
-    {
-        return $this->interface;
-    }
-
-    /**
-     * Return true if the object is an instance of the interface.
+     * Return true if the object is an instance of the strategyInterface.
      *
      * @param mixed $object
      *
      * @return Boolean
      */
-    private function isRespectingInterface($object)
+    protected function isRespectingStrategyInterface($object)
     {
-        if (null !== $this->interface) {
-            return ($object instanceof $this->interface);
+        if (null !== $this->strategyInterface) {
+            return ($object instanceof $this->strategyInterface);
         }
 
         return true;
@@ -129,5 +89,4 @@ class Context
 
         return $mixed;
     }
-
 }
