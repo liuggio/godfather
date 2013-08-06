@@ -2,7 +2,7 @@
 
 | ![godfather](http://images.wikia.com/cybernations/images/archive/c/c9/20071008043557!Godfather_hand_black.png) | A small library for the strategy pattern in PHP, if you use Symfony2 you could easily integrate Godfather with the bundle.   |
 | ------- |-----|
-| 1. [The Strategy pattern](#the-strategy-pattern), 2. [Installation](#installation), 3. [Contribution](#contribution), 4. [Using the symfony2 bundle](#using-the-symfony2-bundle), 5. [Todo](#todo) |[![travis-ci](https://secure.travis-ci.org/liuggio/godfather.png)](http://travis-ci.org/liuggio/godfather) [![Latest Stable Version](https://poser.pugx.org/liuggio/godfather/v/stable.png)](https://packagist.org/packages/liuggio/godfather) [![Total Downloads](https://poser.pugx.org/liuggio/godfather/downloads.png)](https://packagist.org/packages/liuggio/godfather) |
+| 1. [The Strategy pattern](#the-strategy-pattern), 2. [Installation](#installation), 3. [Contribution](#contribution), 4. [Using the symfony2 bundle](#using-the-symfony2-bundle), 5. [Todo](#todo) |[![travis-ci](https://secure.travis-ci.org/pugx/godfather.png)](http://travis-ci.org/pugx/godfather) [![Latest Stable Version](https://poser.pugx.org/pugx/godfather/v/stable.png)](https://packagist.org/packages/pugx/godfather) [![Total Downloads](https://poser.pugx.org/pugx/godfather/downloads.png)](https://packagist.org/packages/pugx/godfather) |
 
 ------------------------------------------------------
 
@@ -32,8 +32,7 @@ Strategy lets the algorithm vary independently from clients that use it.
 Imagine that you want to add a product into a cartitem with some options.
 The problem is that you have multiple products, and each product has a different policy/behaviour.
 
-You could find the code of this use case in: tests/Godfather/Test/FunctionalTest.php                                                                                                                                                                                                                   tests/GodFather/Test/FunctionalTest.php
-
+You could find the code of this use case in: tests/PUGX/Godfather/Test/FunctionalTest.php
 **before the cure:**
 
 ```php
@@ -55,7 +54,7 @@ class Cart
 
 ```php
 // Step1. init
-$godfather = new Godfather();
+$godfather = new PUGX\Godfather();
 //                   |-context name---Interface to respect (optional)----Fallback Strategy-(optional)-|
 $godfather->addContext('cart', 'PUGX\Godfather\Test\Fixture\CartItemInterface', new StandardCartItem());
 // start adding billion of strategies
@@ -81,7 +80,7 @@ class Cart
 
 You want to call the correct manager, starting from the entity:
 ```php
-$godfather = new Godfather();
+$godfather = new PUGX\Godfather();
 // the context is created if is not found.
 $godfather->addStrategy('manager', 'Product\ShoeProduct', new ShoeProductManager());
 $godfather->addStrategy('manager', 'Product\PillowProduct', new PillowProductManager());
