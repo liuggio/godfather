@@ -2,7 +2,7 @@
 
 | ![godfather](http://images.wikia.com/cybernations/images/archive/c/c9/20071008043557!Godfather_hand_black.png) | A small library for the strategy pattern in PHP, if you use Symfony2 you could easily integrate Godfather with the bundle.   |
 | ------- |-----|
-| 1. [The Strategy pattern](#the-strategy-pattern), 2. [Installation](#installation), 3. [Contribution](#contribution), 4. [Using the symfony2 bundle](#using-the-symfony2-bundle), 5. [Todo](#todo) |[![travis-ci](https://secure.travis-ci.org/pugx/godfather.png)](http://travis-ci.org/pugx/godfather) [![Latest Stable Version](https://poser.pugx.org/pugx/godfather/v/stable.png)](https://packagist.org/packages/pugx/godfather) [![Total Downloads](https://poser.pugx.org/pugx/godfather/downloads.png)](https://packagist.org/packages/pugx/godfather) |
+| 1. [The Strategy pattern](#the-strategy-pattern), 2. [Installation](#installation), 3. [Contribution](#contribution), 4. [Using the symfony2 bundle](#using-the-symfony2-bundle), 5. [Todo](#todo) |[![travis-ci](https://secure.travis-ci.org/PUGX/godfather.png)](http://travis-ci.org/PUGX/godfather) [![Latest Stable Version](https://poser.pugx.org/PUGX/godfather/v/stable.png)](https://packagist.org/packages/PUGX/godfather) [![Total Downloads](https://poser.pugx.org/PUGX/godfather/downloads.png)](https://packagist.org/packages/PUGX/godfather) |
 
 ------------------------------------------------------
 
