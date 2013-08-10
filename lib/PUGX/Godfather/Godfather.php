@@ -2,7 +2,7 @@
 
 namespace PUGX\Godfather;
 
-Class Godfather
+Class Godfather implements StrategyInterface
 {
     private $contextClass;
     private $contexts = array();
