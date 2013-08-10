@@ -1,5 +1,5 @@
 <?php
-namespace PUGX\Godfather\GodfatherBundle;
+namespace PUGX\GodfatherBundle;
 
 use PUGX\GodfatherBundle\DependencyInjection\Compiler\CompilerPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
