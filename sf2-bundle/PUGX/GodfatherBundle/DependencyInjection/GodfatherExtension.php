@@ -4,6 +4,7 @@ namespace PUGX\GodfatherBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -44,7 +45,10 @@ class GodfatherExtension extends Extension
 
         $contextName = $context['name'];
         $contextInterface = isset($context['interface'])?$context['interface']:null;
-        $fallback = isset($context['fallback'])?$context['fallback']:null;
+        $fallback = null;
+        if (isset($context['fallback'])) {
+            $fallback = new Reference($context['fallback']);
+        }
 
         $godfather->addMethodCall('addContext', array($contextName, $contextInterface, $fallback));
     }

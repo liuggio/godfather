@@ -106,6 +106,7 @@ Modify the `app/config/config.yml` only if you need:
 godfather:
     contexts:
         manager:
+            name: manager
             fallback: %manager.standard.class%
             interface: %manager.interface.class%
         cart: ~
