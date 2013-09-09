@@ -19,7 +19,26 @@ class GodfatherExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
         $loader = new GodfatherExtension();
-        $loader->load(array(array('contexts' => array('manager'=>array('name'=>'manager', 'interface'=>'interface', 'fallback'=>'fallback')))), $container);
+        $loader->load(array(array('contexts' => array('manager'=>array('interface'=>'interface', 'fallback'=>'fallback')))), $container);
+
+        $this->assertTrue($container->hasDefinition('godfather'), 'The godfather is loaded');
+        $godfather = $container->getDefinition('godfather');
+
+        $found = false;
+        foreach ($godfather->getMethodCalls() as $call) {
+            if ($call[0] == 'addContext' && $call[1][0] == 'manager') {
+                $found = true;
+            }
+        }
+        $this->assertTrue($found);
+    }
+
+
+    public function testFallbackService()
+    {
+        $container = new ContainerBuilder();
+        $loader = new GodfatherExtension();
+        $loader->load(array(array('contexts' => array('manager'=>array('interface'=>'interface', 'fallback'=>'fallback')))), $container);
 
         $this->assertTrue($container->hasDefinition('godfather'), 'The godfather is loaded');
         $godfather = $container->getDefinition('godfather');

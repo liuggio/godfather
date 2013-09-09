@@ -106,10 +106,10 @@ Modify the `app/config/config.yml` only if you need:
 godfather:
     contexts:
         manager:
-            name: manager
-            fallback: %manager.standard.class%
+            fallback: @manager_standard   # need a reference to a service
             interface: %manager.interface.class%
-        cart: ~
+        cart:
+			interface: %cart.interface.class%
 ```
 
 Set your strategies:
@@ -151,11 +151,3 @@ composer create-project pugx/godfather --dev -s dev
 cd godfather
 bin/phpunit
 ```
-
-## TODO
-
-please help me.
-
-1. improve Context Factory
-2. gather feedback
-3. annotation

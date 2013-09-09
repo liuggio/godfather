@@ -19,7 +19,6 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
 
         $this->godfather = new Godfather();
         $this->godfather->addContext('cart', 'PUGX\Godfather\Test\Fixture\CartItemInterface', new StandardCartItem());
-
         // start adding billion of strategy
         $this->godfather->addStrategy('cart', 'PUGX\Godfather\Test\Fixture\Entity\Ticket', new TicketCartItem());
         $this->godfather->addStrategy('cart', 'PUGX\Godfather\Test\Fixture\Entity\Socket', new SocketCartItem());

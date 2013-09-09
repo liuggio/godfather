@@ -26,30 +26,30 @@ class GodfatherExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        foreach ($config['contexts'] as $context) {
-            $this->addContext($context, $container);
+        foreach ($config['contexts']  as $name => $context) {
+            $this->addContext($name, $context, $container);
         }
     }
 
     /**
      * add a Context.
      *
-     * @param array            $context    A client configuration
+     * @param string           $name      The context name
+     * @param array            $context   A client configuration
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    protected function addContext(array $context, ContainerBuilder $container)
+    protected function addContext($name, array $context, ContainerBuilder $container)
     {
         $godfather = $container->getDefinition(
             'godfather'
         );
 
-        $contextName = $context['name'];
         $contextInterface = isset($context['interface'])?$context['interface']:null;
         $fallback = null;
         if (isset($context['fallback'])) {
             $fallback = new Reference($context['fallback']);
         }
 
-        $godfather->addMethodCall('addContext', array($contextName, $contextInterface, $fallback));
+        $godfather->addMethodCall('addContext', array($name, $contextInterface, $fallback));
     }
 }

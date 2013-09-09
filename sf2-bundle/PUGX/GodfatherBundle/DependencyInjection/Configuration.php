@@ -35,7 +35,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('contexts')
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('name')->isRequired()->end()
                             ->scalarNode('interface')->defaultNull()->end()
                             ->scalarNode('fallback')->defaultNull()->end()
                         ->end()
