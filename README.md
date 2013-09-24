@@ -111,7 +111,7 @@ class AppKernel extends Kernel
 ### Configure the `app/config/config.yml`  only if you need
 
 ```yml
-// add the below configuration only if you need to specify the fallback or the interface.
+# add the below configuration only if you need to specify the fallback or the interface.
 godfather:
     default:
         contexts:
@@ -190,7 +190,6 @@ services:
 and then the code with multiple instances
 
 ``` php
-
 $this->getContainer('godfather.life')->getManager($entity);
 $this->getContainer('godfather.death')->getManager($entity);
 ```

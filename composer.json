@@ -21,11 +21,6 @@
     "autoload": {
         "psr-0": { "PUGX": ["sf2-bundle", "lib"]  }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1.x-dev"
-        }
-    },
     "config": {
         "bin-dir": "bin",
         "discard-changes": true
