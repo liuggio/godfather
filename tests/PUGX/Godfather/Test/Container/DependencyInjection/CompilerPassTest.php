@@ -1,8 +1,8 @@
 <?php
 
-namespace PUGX\GodfatherBundle\Tests\DependencyInjection\Compiler;
+namespace PUGX\GodfatherBundle\Tests\Container\DependencyInjection;
 
-use PUGX\GodfatherBundle\DependencyInjection\Compiler\CompilerPass;
+use PUGX\Godfather\Container\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Definition;
 
 class CompilerPassTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +11,7 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
     {
         $menuPass = new CompilerPass();
 
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getContainerBuilderMock();
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('godfather.strategy'))
@@ -25,7 +25,7 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessWithEmptyClass()
     {
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getContainerBuilderMock();
 
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
@@ -38,15 +38,8 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessWithClassAndName()
     {
-        $definitionMock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $definitionMock->expects($this->once())
-            ->method('addMethodCall')
-            ->with($this->equalTo('addStrategy'), $this->isType('array'));
-
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
-        $containerBuilderMock->expects($this->once())
+        $containerBuilderMock = $this->getContainerBuilderMock();
+        $containerBuilderMock->expects($this->any())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
         $containerBuilderMock->expects($this->once())
@@ -56,7 +49,7 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
         $containerBuilderMock->expects($this->once())
             ->method('getDefinition')
             ->with($this->equalTo('godfather'))
-            ->will($this->returnValue($definitionMock));
+            ->will($this->returnValue($this->getMockDefinition()));
 
         $menuPass = new CompilerPass();
         $menuPass->process($containerBuilderMock);
@@ -64,7 +57,7 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessWithMultipleInstance()
     {
-        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock = $this->getContainerBuilderMock();
         $containerBuilderMock->expects($this->once())
             ->method('findTaggedServiceIds')
             ->with($this->equalTo('godfather.strategy'))
@@ -73,7 +66,7 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
                     'id2' => array('tag2' => array('instance' => 'instance2', 'context_key' => 'key', 'context_name' => 'name'))
                 )));
 
-        $containerBuilderMock->expects($this->once())
+        $containerBuilderMock->expects($this->any())
             ->method('hasDefinition')
             ->will($this->returnValue(false));
 
@@ -81,8 +74,37 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
             ->method('setDefinition')
             ->with($this->equalTo('godfather.instance2'));
 
+        $containerBuilderMock->expects($this->any())
+            ->method('getDefinition')
+            ->will($this->returnValue($this->getMockDefinition()));
+
+
         $menuPass = new CompilerPass();
         $menuPass->process($containerBuilderMock);
+    }
+
+
+    private function getContainerBuilderMock()
+    {
+        $containerBuilderMock = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $containerBuilderMock->expects($this->at(0))
+            ->method('hasDefinition')
+            ->with('godfather')
+            ->will($this->returnValue(true));
+
+        return $containerBuilderMock;
+    }
+
+    private function getMockDefinition()
+    {
+        $mock = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mock->expects($this->once())
+            ->method('addMethodCall')
+            ->with($this->equalTo('addStrategy'), $this->isType('array'));
+
+        return $mock;
     }
 
 }

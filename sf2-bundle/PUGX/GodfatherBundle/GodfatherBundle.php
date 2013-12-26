@@ -1,9 +1,9 @@
 <?php
 namespace PUGX\GodfatherBundle;
 
-use PUGX\GodfatherBundle\DependencyInjection\Compiler\CompilerPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PUGX\Godfather\Container\DependencyInjection\CompilerPass;
 
 class GodfatherBundle extends Bundle
 {

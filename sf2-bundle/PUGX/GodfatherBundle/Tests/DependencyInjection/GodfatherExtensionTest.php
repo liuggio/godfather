@@ -16,74 +16,52 @@ class GodfatherExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($container->hasDefinition('godfather'), 'The godfather is loaded');
     }
 
+    public function testMinimalWithMultipleContexts()
+    {
+        $container = new ContainerBuilder();
+        $loader = new GodfatherExtension();
+        $loader->load(array($this->getMinimalMultipleInstances()), $container);
+
+        $this->assertTrue($container->hasDefinition('godfather'), 'The godfather is loaded');
+        $this->assertTrue($container->hasDefinition('godfather.manager'), 'The godfather.manager is loaded');
+    }
+
     public function testContextCreated()
     {
         $container = new ContainerBuilder();
         $loader = new GodfatherExtension();
-        $loader->load(array(array('instanceA' => array('contexts' => array('manager' => array('interface' => 'interface'))))), $container);
+        $loader->load(array(array('instanceA' => array('contexts' => array('manager' => array())))), $container);
 
         $this->assertTrue($container->hasDefinition('godfather'), 'The godfather is loaded');
         $this->assertTrue($container->hasDefinition('godfather.instanceA'), 'The godfather is loaded');
-
-        $godfather = $container->getDefinition('godfather.instanceA');
-
-        $found = false;
-        foreach ($godfather->getMethodCalls() as $call) {
-            if ($call[0] == 'addContext' && $call[1][0] == 'manager') {
-                $found = true;
-            }
-        }
-        $this->assertTrue($found);
+        $this->assertTrue($container->hasDefinition('godfather.instanceA.manager'), 'The godfather is loaded');
     }
-
 
     public function testFallbackService()
     {
         $container = new ContainerBuilder();
         $loader = new GodfatherExtension();
-        $loader->load(array(array('instance' => array('contexts' => array('manager' => array('interface' => 'interface', 'fallback' => 'fallback'))))), $container);
+        $loader->load(array(array('instance' => array('contexts' => array('manager' => array('class'=> '\stdClass', 'fallback' => 'fallback'))))), $container);
 
         $this->assertTrue($container->hasDefinition('godfather.instance'), 'The godfather is loaded');
-        $godfather = $container->getDefinition('godfather.instance');
+        $this->assertTrue($container->hasDefinition('godfather.instance.manager'), 'The godfather is loaded');
 
-        $found = false;
-        foreach ($godfather->getMethodCalls() as $call) {
-            if ($call[0] == 'addContext' && $call[1][0] == 'manager') {
-                $found = true;
-            }
-        }
-        $this->assertTrue($found);
+        $context = $container->getDefinition('godfather.instance.manager');
+        $this->assertEquals('\stdClass', $context->getClass());
+        $this->assertContains('fallback', $context->getArguments());
     }
 
     public function testMultipleInstances()
     {
-
         $container = new ContainerBuilder();
         $loader = new GodfatherExtension();
         $loader->load(array($this->getFullConfigWithMultipleInstances()), $container);
 
-
         $this->assertFalse($container->hasDefinition('godfather.default'), 'default shouldn\'t be created');
         $this->assertTrue($container->hasDefinition('godfather'), 'The godfather is loaded');
-
-        $godfather = $container->getDefinition('godfather');
-
-        $found = false;
-        foreach ($godfather->getMethodCalls() as $call) {
-            if ($call[0] == 'addContext' && $call[1][0] == 'manager') {
-                $found = true;
-            }
-        }
-        $this->assertTrue($found, 'default not found');
-        $godfather = $container->getDefinition('godfather.instance1');
-
-        $found = false;
-        foreach ($godfather->getMethodCalls() as $call) {
-            if ($call[0] == 'addContext' && $call[1][0] == 'manager') {
-                $found = true;
-            }
-        }
-        $this->assertTrue($found, 'instance1 not found');
+        $this->assertTrue($container->hasDefinition('godfather.manager'));
+        $this->assertTrue($container->hasDefinition('godfather.instance1'));
+        $this->assertTrue($container->hasDefinition('godfather.instance1.manager'));
     }
 
     protected function getFullConfigWithMultipleInstances()
@@ -92,13 +70,27 @@ class GodfatherExtensionTest extends \PHPUnit_Framework_TestCase
 default:
     contexts:
         manager:
-            interface: interface0
             fallback: fallback0
 instance1:
     contexts:
         manager:
-            interface: interface1
             fallback: fallback1
+EOF;
+        $parser = new Parser();
+
+        return $parser->parse($yaml);
+    }
+
+
+    protected function getMinimalMultipleInstances()
+    {
+        $yaml = <<<EOF
+default:
+    contexts:
+        manager: ~
+instance1:
+    contexts:
+        manager: ~
 EOF;
         $parser = new Parser();
 

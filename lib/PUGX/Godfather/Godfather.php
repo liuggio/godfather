@@ -2,108 +2,68 @@
 
 namespace PUGX\Godfather;
 
-Class Godfather implements StrategyInterface
+use PUGX\Godfather\Container\ContainerInterface;
+
+class Godfather implements StrategistInterface
 {
-    private $contextClass;
-    private $contexts = array();
+    /** @var \Symfony\Component\DependencyInjection\TaggedContainerInterface */
+    private $container;
+    /** @var string */
+    private $servicePrefix;
+    /** @var ServiceNameConverter */
+    private $converter;
 
-    public function __construct($contextClass = 'PUGX\Godfather\Context')
+    public function __construct(ContainerInterface $container, $servicePrefix = '', ServiceNameConverter $serviceNameConverter = null)
     {
-        $this->contextClass = $contextClass;
-    }
-
-    /**
-     * Create a new context, strategy interface and fallback are optional.
-     *
-     * @param string $contextName
-     * @param string $strategyInterface
-     * @param mixed  $fallBackStrategy
-     *
-     * @return Godfather $this
-     */
-    public function addContext($contextName, $strategyInterface = null, $fallBackStrategy = null)
-    {
-        $this->contexts[$contextName] = $this->createContext($contextName, $strategyInterface, $fallBackStrategy);
-
-        return $this;
-    }
-
-    /**
-     * Get the contexts array
-     *
-     * @return ContextInterface[]
-     */
-    public function getContexts()
-    {
-        return $this->contexts;
-    }
-
-    /**
-     * Simple Context factory.
-     *
-     * @param $contextName
-     * @param $strategyInterface
-     * @param $fallBackStrategy
-     *
-     * @return Context
-     */
-    public function createContext($contextName, $strategyInterface = null, $fallBackStrategy = null)
-    {
-        $class = $this->contextClass;
-        return new $class($contextName, $strategyInterface, $fallBackStrategy);
-    }
-
-    /**
-     * Add a strategy to a context.
-     *
-     * @param string $contextName
-     * @param mixed $contextKey
-     * @param mixed $strategy
-     *
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    public function addStrategy($contextName, $contextKey, $strategy)
-    {
-        if (!isset($this->contexts[$contextName])) {
-            $this->contexts[$contextName] = $this->createContext($contextName);
+        $this->container = $container;
+        $this->servicePrefix = $servicePrefix;
+        if (null === $serviceNameConverter) {
+            $serviceNameConverter = new ServiceNameConverter();
         }
-        $this->contexts[$contextName]->addStrategy($contextKey, $strategy);
-
-        return $this;
+        $this->converter = $serviceNameConverter;
     }
 
     /**
-     * Get the strategy for the key ($contextName, $context).
-     *
-     * @param string $contextName
-     * @param mixed $context
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function getStrategy($contextName, $context)
+    public function addStrategy($contextName, $contextKey, $strategyServiceId)
     {
-        return $this->contexts[$contextName]->getStrategy($context);
+        // each context has a service
+        $contextKeyServiceId = $this->converter->serviceNameConverter($contextKey);
+        // prefix.context_name.key_service
+        $contextKeyServiceId = $this->converter->getServiceNamespace($this->servicePrefix, array($contextName, $contextKeyServiceId));
+
+        if ($this->container->has($strategyServiceId)) {
+            return $this->container->setAlias($contextKeyServiceId, $strategyServiceId);
+        }
+
+        throw new \InvalidArgumentException(sprintf('You have requested a non-existent service "%s".', $strategyServiceId));
     }
 
     /**
-     * A string to underscore.
-     *
-     * @param string $id The string to underscore
-     *
-     * @return string The underscored string
+     * {@inheritDoc}
      */
-    public static function underscore($id)
+    public function getStrategy($contextName, $object)
     {
-        return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'), array('\\1_\\2', '\\1_\\2'), strtr($id, '_', '.')));
+        // prefix.context_name
+        $contextServiceId = $this->converter->getServiceNamespace($this->servicePrefix, $contextName);
+        // get the correct strategy service by the object
+        $strategy = $this->container->get($contextServiceId)->getStrategyName($object);
+        // get service namespace
+        $strategyAlias =$this->converter->getServiceNamespace($this->servicePrefix, array($contextName, $strategy));
+        if (!$this->container->has($strategyAlias)) {
+            $strategyAlias = $this->container->get($contextServiceId)->getFallbackStrategy();
+        }
+
+        return  $this->container->get($strategyAlias);
     }
 
     /**
      * Magic for getStrategy.
      *
-     * @todo improve add argument as first element, replacing array_merge
      * @param $method
      * @param $args
+     *
      * @return mixed
      *
      * @throws \BadMethodCallException
@@ -115,16 +75,9 @@ Class Godfather implements StrategyInterface
             throw new \BadMethodCallException($method);
         }
         $methodName = substr($method, 3);
-        $contextName = self::underscore($methodName);
+        $contextName = $this->converter->serviceNameConverter($methodName);
 
-        if (isset($this->contexts[$contextName])) {
-            $args = array_merge(array($contextName), $args);
-
-            return call_user_func_array(array($this, 'getStrategy'), $args);
-        }
-
-        throw new \BadMethodCallException($method);
+        return call_user_func_array(array($this, 'getStrategy'), array_merge(array($contextName), $args));
 
     }
 }
-

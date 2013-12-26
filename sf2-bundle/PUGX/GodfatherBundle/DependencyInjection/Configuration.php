@@ -33,20 +33,17 @@ class Configuration implements ConfigurationInterface
             ->canBeUnset()
             ->useAttributeAsKey('alias', false)
             ->prototype('array')
-                ->fixXmlConfig('interface')
                 ->children()
                     ->arrayNode('contexts')
                         ->useAttributeAsKey('name', false)
                         ->prototype('array')
-                            ->children()
-                                ->scalarNode('interface')->defaultNull()->end()
+                             ->children()
                                 ->scalarNode('fallback')->defaultNull()->end()
+                                ->scalarNode('class')->defaultValue('\PUGX\Godfather\Context\Context')->end()
                             ->end()
                         ->end()
                     ->end()
                 ->end()
             ->end();
-
-
     }
 }

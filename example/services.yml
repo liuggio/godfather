@@ -1,0 +1,22 @@
+services:
+
+    godfather:
+        class: PUGX\Godfather\Godfather
+        arguments: [@container, 'godfather']
+
+    container:
+        class: PUGX\Godfather\Container\SymfonyContainerBuilder
+        arguments: [@service_container]
+
+    manager.default:
+        class: Manager\DefaultManager
+
+    manager.mug:
+        class: Manager\MugManager
+        tags:
+        -  { name: godfather.strategy, context_name: 'manager', context_key: 'Mug' }
+
+    manager.tshirt:
+        class: Manager\TshirtManager
+        tags:
+        -  { name: godfather.strategy, context_name: 'manager', context_key: 'Tshirt' }
