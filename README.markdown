@@ -159,6 +159,18 @@ class AppKernel extends Kernel
 ```
 ### Configuring `app/config/config.yml`
 
+#### Minimal Configuration
+
+```yml
+# add the below configuration only if you need to specify the fallback or the interface.
+godfather:
+    default:
+        contexts:
+            manager: ~ # your strategy name
+```
+
+#### With the fallback strategy
+
 ```yml
 # add the below configuration only if you need to specify the fallback or the interface.
 godfather:

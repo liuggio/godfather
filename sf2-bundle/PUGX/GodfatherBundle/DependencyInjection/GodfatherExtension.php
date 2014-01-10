@@ -46,7 +46,7 @@ class GodfatherExtension extends Extension
             $prefix = sprintf("godfather.%s", $name);
         }
 
-        self::getOrCreateDefinition($container, $prefix);
+        $this->getOrCreateDefinition($container, $prefix);
 
         $contexts = $parameters['contexts'];
         foreach ($contexts as $name => $context) {
@@ -81,10 +81,10 @@ class GodfatherExtension extends Extension
      *
      * @return Definition
      */
-    public static function getOrCreateDefinition(ContainerBuilder $container, $name = 'default')
+    protected function getOrCreateDefinition(ContainerBuilder $container, $name = 'default')
     {
         if (!$container->hasDefinition($name)) {
-            $definition = self::createGodFatherDefinition($container, $name);
+            $definition = $this->createGodFatherDefinition($container, $name);
             $container->setDefinition($name, $definition);
         } else {
             $definition = $container->getDefinition($name);
@@ -101,7 +101,7 @@ class GodfatherExtension extends Extension
      *
      * @return Definition
      */
-    public static function createGodFatherDefinition(ContainerBuilder $container, $prefix)
+    protected function createGodFatherDefinition(ContainerBuilder $container, $prefix)
     {
         return new Definition('%godfather.class%', array($prefix, $container));
     }
