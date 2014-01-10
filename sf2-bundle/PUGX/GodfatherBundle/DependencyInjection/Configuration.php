@@ -39,7 +39,7 @@ class Configuration implements ConfigurationInterface
                         ->prototype('array')
                              ->children()
                                 ->scalarNode('fallback')->defaultNull()->end()
-                                ->scalarNode('class')->defaultValue('\PUGX\Godfather\Context\Context')->end()
+                                ->scalarNode('class')->defaultValue('PUGX\Godfather\Context\Context')->end()
                             ->end()
                         ->end()
                     ->end()
