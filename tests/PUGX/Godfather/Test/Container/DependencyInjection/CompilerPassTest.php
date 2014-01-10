@@ -78,11 +78,9 @@ class CompilerPassTest extends \PHPUnit_Framework_TestCase
             ->method('getDefinition')
             ->will($this->returnValue($this->getMockDefinition()));
 
-
         $menuPass = new CompilerPass();
         $menuPass->process($containerBuilderMock);
     }
-
 
     private function getContainerBuilderMock()
     {

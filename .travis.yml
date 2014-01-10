@@ -12,6 +12,4 @@ matrix:
   allow_failures:
     - hhvm
 
-
 script: bin/phpunit
-

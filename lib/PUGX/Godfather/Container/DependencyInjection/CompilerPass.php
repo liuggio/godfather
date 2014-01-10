@@ -5,9 +5,6 @@ namespace PUGX\Godfather\Container\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-use PUGX\GodfatherBundle\DependencyInjection\GodfatherExtension;
-use PUGX\Godfather\ServiceNameConverter;
-
 class CompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
