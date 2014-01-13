@@ -36,9 +36,8 @@ class Context implements ContextInterface
     private function getClassOrType($object)
     {
         if (is_object($object)) {
-            $function = new \ReflectionClass(get_class($object));
 
-            return $function->getShortName();
+            return get_class($object);
         }
         try {
             $object = (string) $object;
