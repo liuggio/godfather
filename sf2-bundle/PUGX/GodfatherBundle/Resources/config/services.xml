@@ -10,11 +10,11 @@
     </parameters>
 
     <services>
-        <service id="godfather" class="%godfather.class%" lazy="true">
+        <service id="godfather" class="%godfather.class%">
             <argument type="service" id="godfather_service_container" />
             <argument>godfather</argument>
         </service>
-        <service id="godfather_service_container" class="%godfather.container.class%" lazy="true" public="false">
+        <service id="godfather_service_container" class="%godfather.container.class%" public="false">
             <argument type="service" id="service_container" />
         </service>
     </services>
