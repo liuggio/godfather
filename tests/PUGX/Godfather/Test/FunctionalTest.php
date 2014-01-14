@@ -26,10 +26,10 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
     public function provider()
     {
         return array(
-            'SymfonyContainer with the Mug'    => array($this->createSymfonyGodfather(), 'manager', 'mug_product',    new MugProduct(),    'mug_manager'   , 'echo-mug'),
-            'SymfonyContainer with the Tshirt' => array($this->createSymfonyGodfather(), 'manager', 'tshirt_product', new TshirtProduct(), 'tshirt_manager', 'echo-tshirt'),
-            'ArrayContainer with the Mug'      => array($this->createArrayGodfather(),   'manager', 'mug_product',    new MugProduct(),    'mug_manager'   , 'echo-mug'),
-            'ArrayContainer with the Tshirt'   => array($this->createArrayGodfather(),   'manager', 'tshirt_product', new TshirtProduct(), 'tshirt_manager', 'echo-tshirt'),
+            'SymfonyContainer with the Mug'    => array($this->createSymfonyGodfather(), 'manager', 'pugx.godfather.test.fixture.mug_product',    new MugProduct(),    'mug_manager'   , 'echo-mug'),
+            'SymfonyContainer with the Tshirt' => array($this->createSymfonyGodfather(), 'manager', 'pugx.godfather.test.fixture.tshirt_product', new TshirtProduct(), 'tshirt_manager', 'echo-tshirt'),
+            'ArrayContainer with the Mug'      => array($this->createArrayGodfather(),   'manager', 'pugx.godfather.test.fixture.mug_product',    new MugProduct(),    'mug_manager'   , 'echo-mug'),
+            'ArrayContainer with the Tshirt'   => array($this->createArrayGodfather(),   'manager', 'pugx.godfather.test.fixture.tshirt_product', new TshirtProduct(), 'tshirt_manager', 'echo-tshirt'),
         );
     }
 
