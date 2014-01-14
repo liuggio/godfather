@@ -17,7 +17,7 @@ Class ContextTest extends \PHPUnit_Framework_TestCase
     {
         $context = new Context(new \stdClass());
 
-        $this->assertEquals('ticket', $context->getStrategyName(new Ticket()));
+        $this->assertEquals('pugx.godfather.test.context.ticket', $context->getStrategyName(new Ticket()));
     }
 
 }

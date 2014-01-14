@@ -183,6 +183,10 @@ godfather:
 ### Set your strategies:
 
 ```yml
+parameters:
+    mug.class: Mug
+    tshirt.class: Tshirt
+
 services:
     manager_standard:
         class: StandardProductManager
@@ -190,12 +194,12 @@ services:
     manager_mug:
         class: MugManager
         tags:
-            -  { name: godfather.strategy, context_name: 'manager', context_key: Mug }
+            -  { name: godfather.strategy, context_name: 'manager', context_key: %mug.class% }
 
     manager_tshirt:
         class: TshirtManager
         tags:
-            -  { name: godfather.strategy, context_name: 'manager', context_key: Tshirt }
+            -  { name: godfather.strategy, context_name: 'manager', context_key: %tshirt.class% }
 ```
 
 ### Using in the controller:
