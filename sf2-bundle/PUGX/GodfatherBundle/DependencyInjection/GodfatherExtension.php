@@ -65,18 +65,20 @@ class GodfatherExtension extends Extension
      */
     protected function addContext(ContainerBuilder $container, $prefix, $name, array $context)
     {
-        $fallback = null;
         $serviceName = $prefix.'.'.$name;
-        $default = 'godfather.context';
         if (isset($context['fallback']) || isset($context['class'])) {
-            $fallback = $context['fallback'];
-            $context = new Definition($context['class'], array($fallback));
+
+            if (!isset($context['class'])) {
+                $context['class'] = 'PUGX\Godfather\Context\Context';
+            }
+
+            $context = new Definition($context['class'], array($context['fallback']));
             $container->setDefinition($serviceName, $context);
 
             return ;
         }
 
-        $container->setAlias($serviceName, $default);
+        $container->setAlias($serviceName, 'godfather.context');
     }
 
     /**
