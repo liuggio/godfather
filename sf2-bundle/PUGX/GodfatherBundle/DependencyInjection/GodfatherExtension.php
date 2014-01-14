@@ -5,6 +5,7 @@ namespace PUGX\GodfatherBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -103,6 +104,8 @@ class GodfatherExtension extends Extension
      */
     protected function createGodFatherDefinition(ContainerBuilder $container, $prefix)
     {
-        return new Definition('%godfather.class%', array($prefix, $container));
+        $container =  new Reference('godfather_service_container');
+
+        return new Definition('%godfather.class%', array($container, $prefix));
     }
 }
