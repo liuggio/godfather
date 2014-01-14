@@ -66,12 +66,17 @@ class GodfatherExtension extends Extension
     protected function addContext(ContainerBuilder $container, $prefix, $name, array $context)
     {
         $fallback = null;
-        if (isset($context['fallback'])) {
+        $serviceName = $prefix.'.'.$name;
+        $default = 'godfather.context';
+        if (isset($context['fallback']) || isset($context['class'])) {
             $fallback = $context['fallback'];
+            $context = new Definition($context['class'], array($fallback));
+            $container->setDefinition($serviceName, $context);
+
+            return ;
         }
 
-        $context = new Definition($context['class'], array($fallback));
-        $container->setDefinition($prefix.'.'.$name, $context);
+        $container->setAlias($serviceName, $default);
     }
 
     /**
@@ -104,7 +109,25 @@ class GodfatherExtension extends Extension
      */
     protected function createGodFatherDefinition(ContainerBuilder $container, $prefix)
     {
-        $container =  new Reference('godfather_service_container');
+        $container_definition = new Reference('service_container');
+        $service_container =  new Definition('%godfather.container.class%', array($container_definition));
+        $container->setDefinition(sprintf('godfather_service_container.%s',$prefix), $service_container);
+
+        return new Definition('%godfather.class%', array($service_container, $prefix));
+    }
+
+
+    /**
+     * Definition Factory
+     *
+     * @param ContainerBuilder $container
+     * @param string           $prefix
+     *
+     * @return Definition
+     */
+    protected function createServiceContainerDefinition(ContainerBuilder $container, $prefix)
+    {
+        $container =  new Definition('%godfather.class%');
 
         return new Definition('%godfather.class%', array($container, $prefix));
     }

@@ -78,7 +78,7 @@ class SymfonyContainerBuilder implements ContainerInterface
     public function get($id)
     {
         if ($this->hasAlias($id)) {
-            $id = $this->aliasDefinitions[strtolower($id)];
+            $id = (string) $this->aliasDefinitions[strtolower($id)];
         }
 
         return $this->container->get($id);

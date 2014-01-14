@@ -23,7 +23,7 @@ class GodfatherExtensionTest extends \PHPUnit_Framework_TestCase
         $loader->load(array($this->getMinimalMultipleInstances()), $container);
 
         $this->assertTrue($container->hasDefinition('godfather'), 'The godfather is loaded');
-        $this->assertTrue($container->hasDefinition('godfather.manager'), 'The godfather.manager is loaded');
+        $this->assertTrue($container->hasAlias('godfather.manager'), 'The godfather.manager is loaded');
     }
 
     public function testContextCreated()
@@ -34,7 +34,7 @@ class GodfatherExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($container->hasDefinition('godfather'), 'The godfather is loaded');
         $this->assertTrue($container->hasDefinition('godfather.instanceA'), 'The godfather is loaded');
-        $this->assertTrue($container->hasDefinition('godfather.instanceA.manager'), 'The godfather is loaded');
+        $this->assertTrue($container->hasAlias('godfather.instanceA.manager'), 'The godfather is loaded');
     }
 
     public function testFallbackService()

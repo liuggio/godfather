@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="godfather.class">PUGX\Godfather\Godfather</parameter>
+        <parameter key="godfather.context.class">PUGX\Godfather\Context\Context</parameter>
         <parameter key="godfather.container.class">PUGX\Godfather\Container\SymfonyContainerBuilder</parameter>
     </parameters>
 
@@ -13,6 +14,8 @@
         <service id="godfather" class="%godfather.class%">
             <argument type="service" id="godfather_service_container" />
             <argument>godfather</argument>
+        </service>
+        <service id="godfather.context" class="%godfather.context.class%">
         </service>
         <service id="godfather_service_container" class="%godfather.container.class%" public="false">
             <argument type="service" id="service_container" />

@@ -48,9 +48,10 @@ class Godfather implements StrategistInterface
         // prefix.context_name
         $contextServiceId = $this->converter->getServiceNamespace($this->servicePrefix, $contextName);
         // get the correct strategy service by the object
-        $strategy = $this->container->get($contextServiceId)->getStrategyName($object);
+        $strategy = $this->container->get($contextServiceId);
+        $strategy = $strategy->getStrategyName($object);
         // get service namespace
-        $strategyAlias =$this->converter->getServiceNamespace($this->servicePrefix, array($contextName, $strategy));
+        $strategyAlias = $this->converter->getServiceNamespace($this->servicePrefix, array($contextName, $strategy));
         if (!$this->container->has($strategyAlias)) {
             $strategyAlias = $this->container->get($contextServiceId)->getFallbackStrategy();
         }
